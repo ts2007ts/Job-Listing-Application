@@ -172,6 +172,10 @@ exports.deleteSingleFile = async (req, res, next) => {
 
         let fileToDelete = "public/files/" + req.params.file;
 
+        if (!fileToDelete) {
+            return handleError(createError(404, error.message), req, res, next);
+        }
+
         const filesPath = job.filesPath;
 
         filesPath.forEach((path, index) => {
@@ -208,6 +212,10 @@ exports.downloadSingleFile = async (req, res, next) => {
         const job = await jobListingModel.findById(req.params.id);
 
         let fileToDownload = "public/files/" + req.params.file;
+
+        if (!fileToDownload) {
+            return handleError(createError(404, error.message), req, res, next);
+        }
 
         const filesPath = job.filesPath;
 
