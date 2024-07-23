@@ -126,4 +126,4 @@ Job-Lising-Application/
 
 
 ## Contact
-For any questions or support, please contact [rachidalmustafa377@gamil.com].
+For any questions or support, please contact [tarekyaghi3@gmail.com].
