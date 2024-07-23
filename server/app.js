@@ -3,7 +3,6 @@ const app = express();
 const guestsRouter = require('./Routers/guestsRoutes');
 const authRouter = require('./Routers/authRoutes');
 const jobListingRouter = require('./Routers/jobListingRoutes');
-const userRouter = require('./Routers/userRoutes');
 const cors = require('cors');
 
 // For parsing application/json
@@ -22,6 +21,5 @@ app.use('/public/files', express.static('public/files'));
 app.use('/api', guestsRouter);
 app.use('/api', authRouter);
 app.use('/api/jobs', jobListingRouter);
-app.use('/api/user', userRouter);
 
 module.exports = app;
