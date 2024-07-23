@@ -83,8 +83,12 @@ exports.createJob = async (req, res, next) => {
 
 exports.updateJob = async (req, res, next) => {
     try {
-        console.log(req.body);
+
         const job = await jobListingModel.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
+
+        if (!job) {
+            return handleError(createError(404, "Job Not Found"), req, res, next);
+        }
 
         //Check for files uploads
         if (req.files) {
@@ -114,6 +118,10 @@ exports.deleteJob = async (req, res, next) => {
 
         const job = await jobListingModel.findByIdAndDelete(req.params.id);
 
+        if (!job) {
+            return handleError(createError(404, "Job Not Found"), req, res, next);
+        }
+
         //check if there is files for this job to delete
         if (job.filesPath.length > 0) {
             let filesPath = job.filesPath;
@@ -130,7 +138,6 @@ exports.deleteJob = async (req, res, next) => {
 
             }
         }
-
 
         res.status(200).json({
             status: "success",
@@ -174,7 +181,7 @@ exports.deleteSingleFile = async (req, res, next) => {
         let fileToDelete = "public/files/" + req.params.file;
 
         if (!fileToDelete) {
-            return handleError(createError(404, error.message), req, res, next);
+            return handleError(createError(404, "File Not Found"), req, res, next);
         }
 
         const filesPath = job.filesPath;
@@ -215,7 +222,7 @@ exports.downloadSingleFile = async (req, res, next) => {
         let fileToDownload = "public/files/" + req.params.file;
 
         if (!fileToDownload) {
-            return handleError(createError(404, error.message), req, res, next);
+            return handleError(createError(404, "File Not Found"), req, res, next);
         }
 
         const filesPath = job.filesPath;
