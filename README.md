@@ -80,8 +80,7 @@ Job-Lising-Application/
 4. Start the backend server:
    ```sh
    npm start
-````
-````
+
 ### Frontend Setup
 1. Navigate to the `client` directory:
    ```sh
@@ -94,8 +93,7 @@ Job-Lising-Application/
 3. Start the frontend development server:
    ```sh
    npm start
-````
-````
+
 
 ## API Endpoints
 
