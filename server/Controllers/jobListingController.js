@@ -115,7 +115,7 @@ exports.deleteJob = async (req, res, next) => {
         const job = await jobListingModel.findByIdAndDelete(req.params.id);
 
         //check if there is files for this job to delete
-        if (job.filesPath) {
+        if (job.filesPath.length > 0) {
             let filesPath = job.filesPath;
             for (let i = 0; i < filesPath.length; i++) {
                 if (fs.existsSync(filesPath[i])) {
@@ -130,6 +130,7 @@ exports.deleteJob = async (req, res, next) => {
 
             }
         }
+
 
         res.status(200).json({
             status: "success",

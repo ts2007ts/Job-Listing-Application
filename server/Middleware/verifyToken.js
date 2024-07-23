@@ -12,7 +12,7 @@ const verifyToken = async (req, res, next) => {
     }
 
     if (!token) {
-        return next(handleError(createError(403, 'No token provided'), req, res, next));
+        return (handleError(createError(403, 'No token provided'), req, res, next));
     }
 
     try {
@@ -21,13 +21,13 @@ const verifyToken = async (req, res, next) => {
         const user = await User.findById(decoded.id);
 
         if (!user || user.token !== token) {
-            return next(handleError(createError(401, 'Unauthorized'), req, res, next));
+            return (handleError(createError(401, 'Unauthorized'), req, res, next));
         }
 
         req.user = user;
         next();
     } catch (error) {
-        return next(handleError(createError(401, 'Unauthorized'), req, res, next));
+        return (handleError(createError(401, 'Unauthorized'), req, res, next));
     }
 };
 
