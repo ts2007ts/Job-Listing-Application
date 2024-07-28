@@ -160,7 +160,7 @@ export default function View(props) {
               </span>
               {
                 job.skills.map((skill) => (
-                  <span key={skill + job.id} className="font-bold font-sans text-cyan-600">{skill}</span>
+                  <span key={skill + job.id + Math.random()} className="font-bold font-sans text-cyan-600">{skill}</span>
                 ))
               }
             </div>

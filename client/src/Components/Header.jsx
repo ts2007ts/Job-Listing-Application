@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { GrClose } from "react-icons/gr";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import AuthContext from "../Context/AuthContext";
 
 export default function Header(props) {
 
   const [showMenu, setShowMenu] = useState(false);
+
+  let context = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -37,7 +40,7 @@ export default function Header(props) {
           title: res.data.message,
           showConfirmButton: true,
         });
-        props.updateStatus(false);
+        context.updateStatus(false);
         navigate('/login');
       })
       .catch(err => {

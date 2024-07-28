@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
+import AuthContext from "../Context/AuthContext";
 
 const EMAIL_REGEX = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -17,10 +18,13 @@ export default function Login(props) {
   let [passwordIsValid, setPasswordIsValid] = useState(true);
   let [passwordMinLength, setPasswordMinLength] = useState(true);
 
+  let context = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   function login(e) {
     e.preventDefault();
+
 
     if (emailState.trim() === '') {
       setEmailIsValid(false);
@@ -52,6 +56,8 @@ export default function Login(props) {
     }
 
     loginUser(user);
+
+
   }
 
   function loginUser(user) {
@@ -66,7 +72,7 @@ export default function Login(props) {
         localStorage.setItem('id', res.data._id);
         localStorage.setItem('username', res.data.username);
         localStorage.setItem('email', res.data.email);
-        props.updateStatus(true);
+        context.updateStatus(true);
         navigate('/jobs');
       })
       .catch(err => {

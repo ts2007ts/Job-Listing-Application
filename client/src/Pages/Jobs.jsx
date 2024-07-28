@@ -33,21 +33,6 @@ const Jobs = () => {
   }, []);
 
 
-  function fetchAllJobs() {
-    axios.get('http://localhost:5000/api/jobs')
-      .then(res => {
-        updateJobs(res.data.data.jobs);
-      })
-      .catch(err => {
-        if (err.response) {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: err.response.data.error.message
-          });
-        }
-      })
-  }
 
   const viewDetails = (id) => {
     navigate('/jobs/view/' + id);
@@ -55,8 +40,8 @@ const Jobs = () => {
 
   function timeAgo(date) {
     const seconds = Math.floor((new Date() - new Date(date)) / 1000);
-    let interval = Math.floor(seconds / 31536000);
 
+    let interval = Math.floor(seconds / 31536000);
     if (interval > 1) return `${interval} Ys ago`;
     if (interval === 1) return `1 Y ago`;
 
