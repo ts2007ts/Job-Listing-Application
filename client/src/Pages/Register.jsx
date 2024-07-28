@@ -17,7 +17,7 @@ export default function Register(props) {
   let [passwordState, updatePassword] = useState('');
   let [confirmPasswordState, updateConfirmPassword] = useState('');
 
-  let [usernameIsValid, setUsernameIsValid] = useState(true);
+  let [usernameIsValid, setUsernameIsValid] = useState(false);
   let [emailIsValid, setEmailIsValid] = useState(true);
   let [emailIsValidEmail, setEmailIsValidEmail] = useState(true);
   let [passwordIsValid, setPasswordIsValid] = useState(true);
@@ -27,51 +27,81 @@ export default function Register(props) {
 
   const navigate = useNavigate();
 
-  function register(e) {
-    e.preventDefault();
-
-    if (usernameState.trim() === '') {
+  function usernameValidity(username) {
+    if (username.trim() === '') {
       setUsernameIsValid(false);
       return;
     }
     setUsernameIsValid(true);
+  }
 
-    if (emailState.trim() === '') {
+  function emailValidity(email) {
+    if (email.trim() === '') {
       setEmailIsValid(false);
       return;
     }
     setEmailIsValid(true);
 
-    if (!emailState.toLowerCase().match(EMAIL_REGEX)) {
+    if (!email.toLowerCase().match(EMAIL_REGEX)) {
       setEmailIsValidEmail(false);
       return;
     }
+    setEmailIsValidEmail(true);
+  }
 
-    if (passwordState.trim() === '') {
+  function passwordValidity(password) {
+    if (password.trim() === '') {
       setPasswordIsValid(false);
       return;
     }
     setPasswordIsValid(true);
 
-    if (passwordState.length < 8) {
+    if (password.length < 8) {
       setPasswordMinLength(false);
       return;
     }
     setPasswordMinLength(true);
+  }
 
-    if (confirmPasswordState.trim() === '') {
+  function confirmPasswordValidity(password, passwordConfirmation) {
+    if (passwordConfirmation.trim() === '') {
       setConfirmPasswordIsValid(false);
       return;
     }
     setConfirmPasswordIsValid(true);
 
-    setEmailIsValidEmail(true);
-
-    if (passwordState !== confirmPasswordState) {
+    if (password !== passwordConfirmation) {
       setPasswordMatch(false);
       return;
     }
     setPasswordMatch(true);
+  }
+
+  function checkValidationForAllInputs() {
+    if (
+      usernameIsValid
+      && emailIsValid
+      && emailIsValidEmail
+      && passwordIsValid
+      && passwordMinLength
+      && confirmPasswordIsValid
+      && passwordMatch
+    ) {
+      return true;
+    } else {
+      return false
+    }
+  }
+
+
+
+  function register(e) {
+    e.preventDefault();
+
+    usernameValidity(usernameState);
+    emailValidity(emailState);
+    passwordValidity(passwordState);
+    confirmPasswordValidity(passwordState, confirmPasswordState);
 
     let user = {
       username: usernameState,
@@ -80,7 +110,12 @@ export default function Register(props) {
       confirmPassword: confirmPasswordState,
     }
 
-    createUser(user);
+    if (checkValidationForAllInputs()) {
+      createUser(user);
+    } else {
+      return;
+    }
+
   }
 
   function createUser(user) {
