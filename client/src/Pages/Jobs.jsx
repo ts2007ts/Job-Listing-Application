@@ -4,12 +4,18 @@ import Header from "../Components/Header";
 import axios from 'axios';
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Filter from "../Components/Filter";
 
 
 const Jobs = () => {
   const navigate = useNavigate();
 
-  let [jobs, updateJobs] = useState();
+  let [jobs, updateJobs] = useState([]);
+  let [searchedText, setSearchedText] = useState('');
+
+  let filteredJobs = jobs.filter((job) => {
+    return job.title.toLowerCase().includes(searchedText);
+  })
 
   const fetchJobs = async () => {
     await axios.get(
@@ -75,10 +81,13 @@ const Jobs = () => {
     return false;
   }
 
-
+  function onSearch(value) {
+    setSearchedText(value);
+  }
 
   return (
     <div >
+      <Filter searchText={onSearch} />
       <div className="mt-4">
         <div className="flex justify-between gap-4">
 
@@ -88,9 +97,9 @@ const Jobs = () => {
 
         </div>
 
-        {jobs && (
+        {filteredJobs && (
           <>
-            {jobs.map((job) => (
+            {filteredJobs.map((job) => (
               <div
                 key={job._id}
                 className="flex flex-col text-left mt-4 space-y-4 bg-pink-50 p-4 rounded-xl cursor-pointer shadow-lg"

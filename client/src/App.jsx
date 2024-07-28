@@ -10,7 +10,7 @@ import Privacy from './Pages/Privacy';
 import Create from './Pages/Jobs/Create';
 import View from './Pages/Jobs/View';
 import Edit from './Pages/Jobs/Edit';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import AuthContext from './Context/AuthContext';
